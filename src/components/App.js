@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import NeedlemanWunschAlgorithm from './components/AlgoritmoNeedlemanWunsch/NeedlemanWunsch'
-
-
+import './global/css/App.css';
+import NeedlemanWunschAlgorithm from './AlgoritmoNeedlemanWunsch/NeedlemanWunsch'
+import Header from './global/Header'
+import UploadSequence from './UploadSequence'
 
 class App extends Component {
 
@@ -25,20 +24,22 @@ class App extends Component {
     }
   }
 
-  
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
+        <Header/>
+        <UploadSequence/>
+
         <p className="App-intro">
           P{this.state.alignment1}A
         </p>
         <p>
           {this.state.alignment2}
         </p>
+        <div>
+
+        </div>
       </div>
     );
   }

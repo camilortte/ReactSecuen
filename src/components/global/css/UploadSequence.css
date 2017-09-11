@@ -1,0 +1,19 @@
+.drop-zone {
+    color: green;
+    padding: 20px;
+    border: 1px dashed black;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.drop-zone.drop-zone-active {
+  color: white;
+  background-color: green;
+}
+.drop-zone.drop-zone-accept {
+  color: white;
+  background-color: green;
+}
+.drop-zone.drop-zone-reject {
+  color: white;
+  background-color: green;
+}

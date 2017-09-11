@@ -8,7 +8,7 @@
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/../startapp/node_modules/istanbul-reports/lib/html/templates" />
+        <option value="$MODULE_DIR$/node_modules/istanbul-reports/lib/html/templates" />
       </list>
     </option>
   </component>
