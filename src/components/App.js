@@ -31,9 +31,25 @@ class App extends Component {
         <Header/>
         <UploadSequence/>
 
+        <div class="pure-g">
+            <div class="pure-u-6-12">
+              <textarea rows="4" cols="50">
+                {this.state.alignment1}
+              </textarea>
+            </div>
+            <div class="pure-u-6-12">
+              <textarea rows="4" cols="50">
+                {this.state.alignment1}
+              </textarea>
+            </div>
+
+        </div>
+
         <p className="App-intro">
-          P{this.state.alignment1}A
+          {this.state.alignment1}
         </p>
+
+
         <p>
           {this.state.alignment2}
         </p>

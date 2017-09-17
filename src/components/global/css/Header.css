@@ -9,3 +9,7 @@
 #App-Header .text-container{
     padding-top: 1em;
 }
+
+#App-Header img{
+    float: left;
+}

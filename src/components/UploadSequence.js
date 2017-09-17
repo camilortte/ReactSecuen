@@ -18,7 +18,6 @@ class UploadSequence extends Component {
         <div className="dropzone">
           <Dropzone
             accept=".fasta,.fast,.fa,.txt"
-
             className="drop-zone"
             acceptClassName="drop-zone-active"
             rejectClassName="drop-zone-reject"
@@ -34,12 +33,6 @@ class UploadSequence extends Component {
           <ul>
             {
               this.state.accepted.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-            }
-          </ul>
-          <h2>Rejected files</h2>
-          <ul>
-            {
-              this.state.rejected.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
             }
           </ul>
         </aside>

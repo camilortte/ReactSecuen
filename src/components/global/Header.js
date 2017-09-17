@@ -13,10 +13,8 @@ class Header extends Component {
     return (
       <div id="App-Header">
         <div className="pure-g">
-          <div className="pure-u-4-24 logo-container">
+          <div className="pure-u-24-24 text-container text-center">
             <img src={logo} className="App-logo" alt="logo" />
-          </div>
-          <div className="pure-u-20-24 text-container text-center">
             <h1>Universidad Distrital</h1>
             <h3>Bioinformática</h3>
           </div>
