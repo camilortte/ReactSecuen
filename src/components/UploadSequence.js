@@ -29,6 +29,8 @@ class UploadSequence extends Component {
             <p>Solo son permitidos los archivos *.fasta, *fast o *.txt</p>
           </Dropzone>
         </div>
+
+
         <aside>
           <h2>Accepted files</h2>
           <ul>
