@@ -17,3 +17,20 @@
   color: white;
   background-color: green;
 }
+
+#App-UploadSequence .sequences .sequence-container{
+    margin: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+#App-UploadSequence .sequences div textarea{
+    width: 100%;
+    min-height: 10em;
+    max-width: 100%;
+}
+
+#App-UploadSequence .sequences div h4{
+    text-align: left;
+    margin: 0;
+}

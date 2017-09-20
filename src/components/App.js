@@ -3,6 +3,7 @@ import './global/css/App.css';
 import NeedlemanWunschAlgorithm from './AlgoritmoNeedlemanWunsch/NeedlemanWunsch'
 import Header from './global/Header'
 import UploadSequence from './UploadSequence'
+// import ScrollSync from "./ScrollSync";
 
 class App extends Component {
 
@@ -18,9 +19,10 @@ class App extends Component {
     console.log(resultAlignment);
     console.log(resultAlignment[0]);
     this.state = {
+      sequence1: null,
+      sequence2: null,
       alignment1: resultAlignment[0],
-      alignment2: resultAlignment[1],
-      nimierda: "Nimierda"
+      alignment2: resultAlignment[1]
     }
   }
 
@@ -30,20 +32,6 @@ class App extends Component {
       <div className="App">
         <Header/>
         <UploadSequence/>
-
-        <div class="pure-g">
-            <div class="pure-u-6-12">
-              <textarea rows="4" cols="50">
-                {this.state.alignment1}
-              </textarea>
-            </div>
-            <div class="pure-u-6-12">
-              <textarea rows="4" cols="50">
-                {this.state.alignment1}
-              </textarea>
-            </div>
-
-        </div>
 
         <p className="App-intro">
           {this.state.alignment1}
