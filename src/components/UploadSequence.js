@@ -18,6 +18,10 @@ class UploadSequence extends Component {
     this.onDrop = this.onDrop.bind(this);
   }
 
+  onLoadSequences(sequence1, sequence2){
+    this.props.onLoadSequences(sequence1, sequence2);
+  }
+
   onDrop(accepted, rejected){
     if(accepted !== null && accepted !== undefined){
       this.readTextFile(accepted[0]);
@@ -35,6 +39,7 @@ class UploadSequence extends Component {
         const sequence1 = fastanContent.getSequence1();
         const sequence2 = fastanContent.getSequence2();
         this.setState({sequence1: sequence1, sequence2: sequence2});
+        this.onLoadSequences(sequence1, sequence2);
     };
     reader.onabort = () => console.log('file reading was aborted');
     reader.onerror = () => console.log('file reading has failed');

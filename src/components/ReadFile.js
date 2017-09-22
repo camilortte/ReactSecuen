@@ -34,11 +34,15 @@ export default class ReadFASTAContent  {
         }
       }else{
         if(read_first_sequence){
-          // Save the payload of first sequence
-          this.sequence1.payload += lines[i];
+          if(lines[i] !== '' && lines[i] !== '\n'){
+            // Save the payload of first sequence
+            this.sequence1.payload += lines[i];
+          }
         }else{
-          // Save the payload of second sequence
-          this.sequence2.payload += lines[i];
+          if(lines[i] !== '' && lines[i] !== '\n') {
+            // Save the payload of second sequence
+            this.sequence2.payload += lines[i];
+          }
         }
       }
     }
@@ -46,6 +50,9 @@ export default class ReadFASTAContent  {
     if(error){
       this.sequence1.payload = null;
       this.sequence2.payload = null;
+    }else{
+      this.sequence1.payload = this.sequence1.payload.replace("\n","");
+      this.sequence2.payload = this.sequence2.payload.replace("\n","");
     }
   }
 
