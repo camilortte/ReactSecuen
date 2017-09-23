@@ -51,8 +51,8 @@ export default class ReadFASTAContent  {
       this.sequence1.payload = null;
       this.sequence2.payload = null;
     }else{
-      this.sequence1.payload = this.sequence1.payload.replace("\n","");
-      this.sequence2.payload = this.sequence2.payload.replace("\n","");
+      this.sequence1.payload = this.sequence1.payload.replace(/\r?\n|\r/g,"");
+      this.sequence2.payload = this.sequence2.payload.replace(/\r?\n|\r/g,"");
     }
   }
 

@@ -66,17 +66,13 @@ class UploadSequence extends Component {
             <div className="pure-u-12-24">
               <div className="sequence-container">
                 <h4>{this.state.sequence1.description}</h4>
-                <textarea >
-                  {this.state.sequence1.payload}
-                </textarea>
+                <textarea value={this.state.sequence1.payload}/>
               </div>
             </div>
             <div className="pure-u-12-24">
               <div className="sequence-container">
                 <h4>{this.state.sequence2.description}</h4>
-                <textarea>
-                  {this.state.sequence2.payload}
-                </textarea>
+                <textarea value={this.state.sequence2.payload}/>
               </div>
             </div>
           </aside>
@@ -110,6 +106,8 @@ class UploadSequence extends Component {
       </section>
     );
   }
+
+
 }
 
 export default UploadSequence;
