@@ -12,7 +12,7 @@ class UploadSequence extends Component {
       accepted: [],
       rejected: [],
       sequence1: null,
-      sequence2: null
+      sequence2: null,
     };
 
     this.onDrop = this.onDrop.bind(this);
@@ -49,7 +49,6 @@ class UploadSequence extends Component {
 
 
   render() {
-
     let acceptedFile = null;
     if(this.state.accepted.length > 0){
       acceptedFile = (
@@ -62,20 +61,22 @@ class UploadSequence extends Component {
     let resultSequences =  null;
     if(this.state.sequence1 !== null && this.state.sequence2 !== null){
       resultSequences = (
-          <aside className="sequences pure-g">
-            <div className="pure-u-12-24">
-              <div className="sequence-container">
-                <h4>{this.state.sequence1.description}</h4>
-                <textarea value={this.state.sequence1.payload}/>
+          <section className="sequences ">
+            <aside className="pure-g">
+              <div className="pure-u-12-24">
+                <div className="sequence-container">
+                  <h4>{this.state.sequence1.description}</h4>
+                  <textarea value={this.state.sequence1.payload}/>
+                </div>
               </div>
-            </div>
-            <div className="pure-u-12-24">
-              <div className="sequence-container">
-                <h4>{this.state.sequence2.description}</h4>
-                <textarea value={this.state.sequence2.payload}/>
+              <div className="pure-u-12-24">
+                <div className="sequence-container">
+                  <h4>{this.state.sequence2.description}</h4>
+                  <textarea value={this.state.sequence2.payload}/>
+                </div>
               </div>
-            </div>
-          </aside>
+            </aside>
+          </section>
       );
     }else{
       resultSequences =  null;

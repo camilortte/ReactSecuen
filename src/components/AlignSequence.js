@@ -47,7 +47,11 @@ class AlignSequence extends Component {
       sequence2Array: [],
       alignment1: null,
       alignment2: null,
+      alignment1Array:[],
+      alignment2Array:[],
       valueMatrix: null,
+      wayMatrix:null,
+      loadingAlgorithm: false,
 
       columnWidth: 50,
       columnCount: 50,
@@ -55,14 +59,20 @@ class AlignSequence extends Component {
       overscanColumnCount: 0,
       overscanRowCount: 5,
       rowHeight: 50,
-      rowCount: 100
+      rowCount: 100,
+
+      isHoveredButtonAlign: false
     };
 
-    this.align();
+    this.align = this.align.bind(this);
     this._renderBodyCell = this._renderBodyCell.bind(this);
     this._renderHeaderCell = this._renderHeaderCell.bind(this);
     this._renderLeftSideCell = this._renderLeftSideCell.bind(this);
     this._renderLeftHeaderCell = this._renderLeftHeaderCell.bind(this);
+    this._onClickAlignSequenceButton = this._onClickAlignSequenceButton.bind(this);
+    this.renderButtonAlign = this.renderButtonAlign.bind(this);
+    this.renderAlignmentTable = this.renderAlignmentTable.bind(this);
+    this._renderAlignmentTableCell = this._renderAlignmentTableCell.bind(this);
   }
 
   // Usage the Algorith of needlemanWunsch to aligment sequence1 with sequence2
@@ -74,33 +84,139 @@ class AlignSequence extends Component {
         sequence2
       );
       needlemanWunsch.fillValueMatrix();
-      // needlemanWunsch.printValuematrix();
       let resultAlignment = needlemanWunsch.makeAlignment();
+
+      let alignment1Array = resultAlignment[0].split("");
+      let alignment2Array = resultAlignment[1].split("");
+
       this.setState({
         alignment1: resultAlignment[0],
         alignment2: resultAlignment[1],
         valueMatrix: needlemanWunsch.matrix_value,
+        wayMatrix: needlemanWunsch.way_matrix,
         rowCount: needlemanWunsch.matrix_value.length,
-        columnCount: needlemanWunsch.matrix_value[0].length + 1
+        columnCount: needlemanWunsch.matrix_value[0].length + 1,
+        alignment1Array: alignment1Array,
+        alignment2Array: alignment2Array,
+        loadingAlgorithm: false
+      });
+    }
+  }
+
+  _onClickAlignSequenceButton(){
+    if(this.state.alignment1 === null && this.state.alignment2 === null){
+      // var self = this;
+      this.setState({loadingAlgorithm: true}, () => {
+        console.log(this.state.loadingAlgorithm);
+        setTimeout (() => {
+          this.align(this.state.sequence1, this.state.sequence2)
+        }, 500);
+
       });
     }
   }
 
   render() {
+    console.log("Calling render");
     let valueMatrixTable = null;
+    let renderButtonAlignData = null;
+    let renderAlignmentTableData = null;
     if(this.state.valueMatrix){
       valueMatrixTable = this.renderTableValues();
+    }
+    if(this.state.sequence1 && this.state.sequence2 && !this.state.alignment1){
+      renderButtonAlignData = this.renderButtonAlign();
+    }
+    if(this.state.alignment1 && this.state.alignment2){
+      renderAlignmentTableData = this.renderAlignmentTable();
     }
 
     return (
       <div className="App-Align-sequence pure-g">
-        {/*<h1>{this.state.sequence1}</h1>*/}
-        {/*<h1>{this.state.sequence2}</h1>*/}
-        {/*<br/>*/}
-        {/*<h1>{this.state.alignment1}</h1>*/}
-        {/*<h1>{this.state.alignment2}</h1>*/}
+        <h1>{this.state.loadingAlgorithm}</h1>
+        {renderButtonAlignData}
         {valueMatrixTable}
+        {renderAlignmentTableData}
+      </div>
+    );
+  }
 
+  renderButtonAlign(){
+    console.log("Rendering button align");
+    let btnAlignClass = "animated infinite pulse";
+    let btnString = "Alinear secuencias";
+    if(this.state.loadingAlgorithm){
+      console.log("Rendering button align en true");
+      btnString = "loading...";
+      btnAlignClass = "animated infinite jello";
+    }
+    return(
+      <aside className="pure-u-24-24 action-align">
+        <button className={"pure-button pure-button-primary " + btnAlignClass}
+              onClick={this._onClickAlignSequenceButton}>{btnString}</button>
+      </aside>
+    );
+  }
+
+  _renderAlignmentTableCell({ columnIndex, key, rowIndex, style }) {
+    if (columnIndex < 1) {
+      return;
+    }
+    let color = "red";
+    if(this.state.alignment1Array[columnIndex-1] === this.state.alignment2Array[columnIndex-1]){
+      color = "green";
+    }
+    style.backgroundColor = color;
+    style.left = style.left - this.state.rowHeight;
+    if(rowIndex === 0){
+
+      return (
+        <div className={"headerCell"} key={key} style={style}>
+          {this.state.alignment1Array[columnIndex-1]}
+        </div>
+      );
+    }else{
+      return (
+        <div className={"headerCell"} key={key} style={style}>
+          {this.state.alignment2Array[columnIndex-1]}
+        </div>
+      );
+    }
+
+  }
+
+  renderAlignmentTable(){
+    const {
+      alignment1Array,
+      columnWidth,
+      rowHeight,
+      overscanColumnCount,
+      overscanRowCount
+    } = this.state;
+
+    return(
+      <div className="pure-u-24-24">
+        <h2 className="text-center">Resultado alineación</h2>
+        <div className={"GridColumn"}>
+          <AutoSizer disableHeight>
+            {({ width }) =>
+              <div>
+                  <Grid
+                    overscanColumnCount={overscanColumnCount}
+                    overscanRowCount={overscanRowCount}
+                    className={"AlignmentGrid"}
+                    columnWidth={columnWidth}
+                    columnCount={alignment1Array.length + 1}
+                    height={rowHeight * 2}
+                    cellRenderer={this._renderAlignmentTableCell}
+                    rowHeight={rowHeight}
+                    rowCount={2}
+                    width={width}
+                  />
+              </div>}
+          </AutoSizer>
+        </div>
+        <br/><br/><br/>
       </div>
     );
   }
@@ -224,8 +340,8 @@ class AlignSequence extends Component {
                           </div>
                           <div
                             style={{
-                              backgroundColor: `rgb(${middleBackgroundColor.r},${middleBackgroundColor.g},${middleBackgroundColor.b})`,
-                              color: middleColor,
+                              // backgroundColor: `rgb(${middleBackgroundColor.r},${middleBackgroundColor.g},${middleBackgroundColor.b})`,
+                              color: "#57c4e1",
                               height,
                               width: width
                             }}
@@ -259,8 +375,24 @@ class AlignSequence extends Component {
     if (columnIndex < 1) {
       return;
     }
+    let classNames = "headerCell";
+    let way_matrix = this.state.wayMatrix;
+    // console.log(way_matrix);
+    // if(this.state.wayMatrix.length > 0){
+    //   for(let i=0;i<this.state.wayMatrix.length;i++){
+    //     for(let j=0;i<this.state.wayMatrix[0].length;j++) {
+    //       if (this.state.wayMatrix[i][j] === this.state.valueMatrix[rowIndex][columnIndex - 1]) {
+    //         classNames = cn("oddRow", "cell");
+    //         way_matrix.splice(i, 1);
+    //         this.setState({wayMatrix:way_matrix});
+    //         break;
+    //       }
+    //     }
+    //   }
+    // }
+
     return (
-      <div className={"headerCell"} key={key} style={style}>
+      <div className={classNames} key={key} style={style}>
         {this.state.valueMatrix[rowIndex][columnIndex-1]}
       </div>
     );
@@ -270,18 +402,22 @@ class AlignSequence extends Component {
     if (columnIndex < 1) {
       return;
     }
-    return this._renderLeftHeaderCell({ columnIndex, key, rowIndex, style });
-  }
-
-  _renderLeftHeaderCell({ columnIndex, key, style }) {
-    const rowClass =
-      columnIndex % 2 === 0
-        ? columnIndex % 2 === 0 ? "evenRow" : "oddRow"
-        : columnIndex % 2 !== 0 ? "evenRow" : "oddRow";
+    const rowClass = columnIndex % 2 === 0  ? "oddRow" : "evenRow";
     const classNames = cn(rowClass, "cell");
 
     return (
-      <div className={"headerCell " + classNames} key={key} style={style}>
+      <div className={classNames} key={key} style={style}>
+        {this.state.sequence1Array[columnIndex]}
+      </div>
+    );
+  }
+
+  _renderLeftHeaderCell({ columnIndex, key, style }) {
+    const rowClass = columnIndex % 2 === 0  ? "oddRow" : "evenRow";
+    const classNames = cn(rowClass, "cell");
+
+    return (
+      <div className={classNames} key={key} style={style}>
         {this.state.sequence1Array[columnIndex]}
       </div>
     );
@@ -311,10 +447,13 @@ class AlignSequence extends Component {
         sequence1: nextProps.sequence1,
         sequence2: nextProps.sequence2,
         sequence1Array: sequence1Array,
-        sequence2Array: sequence2Array
-      });
+        sequence2Array: sequence2Array,
+        alignment1: null,
+        alignment2: null,
+        valueMatrix: null,
 
-      this.align(nextProps.sequence1, nextProps.sequence2);
+        // loadingAlgorithm: nextProps.loadingAlgorithm
+      });
     }
   }
 }

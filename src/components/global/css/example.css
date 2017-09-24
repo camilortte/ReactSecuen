@@ -25,6 +25,13 @@
     overflow: hidden !important;
 }
 
+.AlignmentGrid {
+    width: 100%;
+    overflow-x: scroll !important;
+    overflow-y: hidden !important;
+    /*overflow-y: scroll !important;*/
+}
+
 .BodyGrid {
     width: 100%;
     overflow-x: scroll !important;
@@ -54,4 +61,9 @@
 .headerCell,
 .leftCell {
     font-weight: bold;
+}
+
+/* Button container */
+.action-align{
+    margin-bottom: 1.5em;
 }

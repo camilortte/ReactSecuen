@@ -18,6 +18,11 @@
   background-color: green;
 }
 
+
+#App-UploadSequence .sequences{
+    margin-bottom: 1em;
+}
+
 #App-UploadSequence .sequences .sequence-container{
     margin: 1em;
     padding-left: 1.5em;
