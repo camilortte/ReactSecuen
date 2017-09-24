@@ -1,32 +1,18 @@
 import React, { Component } from 'react';
 import NeedlemanWunschAlgorithm from './AlgoritmoNeedlemanWunsch/NeedlemanWunsch'
 import { Grid, ScrollSync, AutoSizer } from 'react-virtualized'
-import 'react-virtualized/styles.css'; // only needs to be imported once
-import "./global/css/example.css";
+// import 'react-virtualized/styles.css'; // only needs to be imported once
+import "./global/css/AlignSequence.css";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import cn from "classnames";
 
 
-const LEFT_COLOR_FROM = "#61dafb";
-const LEFT_COLOR_TO = "#BC3959";
-const TOP_COLOR_FROM = "#000000";
-const TOP_COLOR_TO = "#333333";
+const RED_COLOR = "red";
+const GREEN_COLOR = "green";
+const TEXT_COLOR_HEACER_CELL = "#fff";
+const BACKGROUND_HEADER_COLOR = "#61dafb";
+const TEXT_COLOR_BODY_CELL = "#57c4e1";
 
-
-/**
- * Ported from sass implementation in C
- * https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
- */
-function mixColors(color1, color2, amount) {
-  const weight1 = amount;
-  const weight2 = 1 - amount;
-
-  const r = Math.round(weight1 * color1.r + weight2 * color2.r);
-  const g = Math.round(weight1 * color1.g + weight2 * color2.g);
-  const b = Math.round(weight1 * color1.b + weight2 * color2.b);
-
-  return { r, g, b };
-}
 
 class AlignSequence extends Component {
 
@@ -44,6 +30,7 @@ class AlignSequence extends Component {
       valueMatrix: null,
       wayMatrix:null,
       loadingAlgorithm: false,
+      showMatrixValue: false,
 
       columnWidth: 50,
       columnCount: 50,
@@ -51,9 +38,7 @@ class AlignSequence extends Component {
       overscanColumnCount: 0,
       overscanRowCount: 5,
       rowHeight: 50,
-      rowCount: 100,
-
-      isHoveredButtonAlign: false
+      rowCount: 100
     };
 
     this.align = this.align.bind(this);
@@ -67,7 +52,7 @@ class AlignSequence extends Component {
     this._renderAlignmentTableCell = this._renderAlignmentTableCell.bind(this);
   }
 
-  // Usage the Algorith of needlemanWunsch to aligment sequence1 with sequence2
+  // Usage the Algorithm of needlemanWunsch to alignment sequence1 with sequence2
   align(sequence1, sequence2){
     if(sequence1!==null && sequence1!==undefined &&
         sequence2 !== null && sequence2!==undefined){
@@ -95,6 +80,7 @@ class AlignSequence extends Component {
     }
   }
 
+  // When on click on the Button
   _onClickAlignSequenceButton(){
     if(this.state.alignment1 === null && this.state.alignment2 === null){
       // var self = this;
@@ -109,7 +95,6 @@ class AlignSequence extends Component {
   }
 
   render() {
-    console.log("Calling render");
     let valueMatrixTable = null;
     let renderButtonAlignData = null;
     let renderAlignmentTableData = null;
@@ -127,19 +112,18 @@ class AlignSequence extends Component {
       <div className="App-Align-sequence pure-g">
         <h1>{this.state.loadingAlgorithm}</h1>
         {renderButtonAlignData}
-        {valueMatrixTable}
         {renderAlignmentTableData}
+        {valueMatrixTable}
       </div>
     );
   }
 
   renderButtonAlign(){
-    console.log("Rendering button align");
     let btnAlignClass = "animated infinite pulse";
     let btnString = "Alinear secuencias";
     if(this.state.loadingAlgorithm){
       console.log("Rendering button align en true");
-      btnString = "loading...";
+      btnString = "Cargando...";
       btnAlignClass = "animated infinite jello";
     }
     return(
@@ -154,14 +138,14 @@ class AlignSequence extends Component {
     if (columnIndex < 1) {
       return;
     }
-    let color = "red";
+    // Set color green if they are the same else red color
+    let color = RED_COLOR;
     if(this.state.alignment1Array[columnIndex-1] === this.state.alignment2Array[columnIndex-1]){
-      color = "green";
+      color = GREEN_COLOR;
     }
     style.backgroundColor = color;
     style.left = style.left - this.state.rowHeight;
     if(rowIndex === 0){
-
       return (
         <div className={"headerCell"} key={key} style={style}>
           {this.state.alignment1Array[columnIndex-1]}
@@ -174,7 +158,6 @@ class AlignSequence extends Component {
         </div>
       );
     }
-
   }
 
   renderAlignmentTable(){
@@ -185,7 +168,6 @@ class AlignSequence extends Component {
       overscanColumnCount,
       overscanRowCount
     } = this.state;
-
     return(
       <div className="pure-u-24-24">
         <h2 className="text-center">Resultado alineación</h2>
@@ -221,146 +203,138 @@ class AlignSequence extends Component {
       overscanColumnCount,
       overscanRowCount,
       rowHeight,
-      rowCount
+      rowCount,
+      showMatrixValue,
     } = this.state;
+
+    let matrixValueRender = null;
+    if(showMatrixValue){
+      matrixValueRender = <ScrollSync>
+        {({
+          onScroll,
+          scrollLeft,
+          scrollTop,
+        }) => {
+          const leftColor =  TEXT_COLOR_HEACER_CELL;
+          const topColor = TEXT_COLOR_HEACER_CELL;
+
+          return (
+            <div className={"GridRow "} >
+              <div
+                className={ "LeftSideGridContainer"}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  color: leftColor,
+                  backgroundColor: BACKGROUND_HEADER_COLOR
+                }}
+              >
+                <Grid
+                  cellRenderer={this._renderLeftHeaderCell}
+                  className={"HeaderGrid"}
+                  width={columnWidth}
+                  height={rowHeight}
+                  rowHeight={rowHeight}
+                  columnWidth={columnWidth}
+                  rowCount={1}
+                  columnCount={1}
+                />
+              </div>
+              <div
+                className={"LeftSideGridContainer"}
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: rowHeight,
+                  color: leftColor,
+                  backgroundColor: BACKGROUND_HEADER_COLOR
+                }}
+              >
+                <Grid
+                  overscanColumnCount={overscanColumnCount}
+                  overscanRowCount={overscanRowCount}
+                  cellRenderer={this._renderLeftSideCell}
+                  columnWidth={columnWidth}
+                  columnCount={1}
+                  className={"LeftSideGrid"}
+                  height={height - scrollbarSize()}
+                  rowHeight={rowHeight}
+                  rowCount={rowCount}
+                  scrollTop={scrollTop}
+                  width={columnWidth}
+                />
+              </div>
+              <div className={"GridColumn"}>
+                <AutoSizer disableHeight>
+                  {({ width }) =>
+                    <div>
+                      <div
+                        style={{
+                          backgroundColor: BACKGROUND_HEADER_COLOR,
+                          color: topColor,
+                          height: rowHeight,
+                          width: width - scrollbarSize()
+                        }}
+                      >
+                        <Grid
+                          className={"HeaderGrid"}
+                          columnWidth={columnWidth}
+                          columnCount={columnCount}
+                          height={rowHeight}
+                          overscanColumnCount={overscanColumnCount}
+                          cellRenderer={this._renderHeaderCell}
+                          rowHeight={rowHeight}
+                          rowCount={1}
+                          scrollLeft={scrollLeft}
+                          width={width - scrollbarSize()}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          color: TEXT_COLOR_BODY_CELL,
+                          height,
+                          width: width
+                        }}
+                      >
+                        <Grid
+                          className={"BodyGrid"}
+                          columnWidth={columnWidth}
+                          columnCount={columnCount}
+                          height={height}
+                          onScroll={onScroll}
+                          overscanColumnCount={overscanColumnCount}
+                          overscanRowCount={overscanRowCount}
+                          cellRenderer={this._renderBodyCell}
+                          rowHeight={rowHeight}
+                          rowCount={rowCount}
+                          width={width}
+                        />
+                      </div>
+                    </div>}
+                </AutoSizer>
+              </div>
+            </div>
+          );
+        }}
+      </ScrollSync>
+    }
+    let buttonShowMatrixValue = null;
+    if(this.state.showMatrixValue === false){
+      buttonShowMatrixValue = (
+          <button className="button-secondary pure-button"
+            onClick={() => this.setState({showMatrixValue: !showMatrixValue})}
+          >Ver matriz de resultados</button>
+      )
+    }
     return(
-        <div className="pure-u-24-24">
-          <ScrollSync>
-            {({
-              clientHeight,
-              clientWidth,
-              onScroll,
-              scrollHeight,
-              scrollLeft,
-              scrollTop,
-              scrollWidth
-            }) => {
-              const x = scrollLeft / (scrollWidth - clientWidth);
-              const y = scrollTop / (scrollHeight - clientHeight);
-
-              const leftBackgroundColor = mixColors(
-                LEFT_COLOR_FROM,
-                LEFT_COLOR_TO,
-                y
-              );
-              const leftColor = "#ffffff";
-              const topBackgroundColor = mixColors(
-                TOP_COLOR_FROM,
-                TOP_COLOR_TO,
-                x
-              );
-              const topColor = "#fff";
-              const middleBackgroundColor = mixColors(
-                leftBackgroundColor,
-                topBackgroundColor,
-                0.5
-              );
-              const middleColor = "#ffffff";
-
-              return (
-
-                <div className={"GridRow"} >
-                  <div
-                    className={ "LeftSideGridContainer"}
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: 0,
-                      color: leftColor,
-                      backgroundColor: "#61dafb"
-                    }}
-                  >
-                    <Grid
-                      cellRenderer={this._renderLeftHeaderCell}
-                      className={"HeaderGrid"}
-                      width={columnWidth}
-                      height={rowHeight}
-                      rowHeight={rowHeight}
-                      columnWidth={columnWidth}
-                      rowCount={1}
-                      columnCount={1}
-                    />
-                  </div>
-                  <div
-                    className={"LeftSideGridContainer"}
-                    style={{
-                      position: "absolute",
-                      left: 0,
-                      top: rowHeight,
-                      color: leftColor,
-                      backgroundColor: "#61dafb"
-                    }}
-                  >
-                    <Grid
-                      overscanColumnCount={overscanColumnCount}
-                      overscanRowCount={overscanRowCount}
-                      cellRenderer={this._renderLeftSideCell}
-                      columnWidth={columnWidth}
-                      columnCount={1}
-                      className={"LeftSideGrid"}
-                      height={height - scrollbarSize()}
-                      rowHeight={rowHeight}
-                      rowCount={rowCount}
-                      scrollTop={scrollTop}
-                      width={columnWidth}
-                    />
-                  </div>
-                  <div className={"GridColumn"}>
-                    <AutoSizer disableHeight>
-                      {({ width }) =>
-                        <div>
-                          <div
-                            style={{
-                              backgroundColor: '#61dafb',
-                              color: topColor,
-                              height: rowHeight,
-                              width: width - scrollbarSize()
-                            }}
-                          >
-                            <Grid
-                              className={"HeaderGrid"}
-                              columnWidth={columnWidth}
-                              columnCount={columnCount}
-                              height={rowHeight}
-                              overscanColumnCount={overscanColumnCount}
-                              cellRenderer={this._renderHeaderCell}
-                              rowHeight={rowHeight}
-                              rowCount={1}
-                              scrollLeft={scrollLeft}
-                              width={width - scrollbarSize()}
-                            />
-                          </div>
-                          <div
-                            style={{
-                              color: "#57c4e1",
-                              height,
-                              width: width
-                            }}
-                          >
-                            <Grid
-                              className={"BodyGrid"}
-                              columnWidth={columnWidth}
-                              columnCount={columnCount}
-                              height={height}
-                              onScroll={onScroll}
-                              overscanColumnCount={overscanColumnCount}
-                              overscanRowCount={overscanRowCount}
-                              cellRenderer={this._renderBodyCell}
-                              rowHeight={rowHeight}
-                              rowCount={rowCount}
-                              width={width}
-                            />
-                          </div>
-                        </div>}
-                    </AutoSizer>
-                  </div>
-                </div>
-              );
-            }}
-          </ScrollSync>
+        <div className="pure-u-24-24 value-matrix">
+          {buttonShowMatrixValue}
+          {matrixValueRender}
         </div>
     )
   }
+
 
   _renderBodyCell({ columnIndex, key, rowIndex, style }) {
     if (columnIndex < 1) {
@@ -369,11 +343,10 @@ class AlignSequence extends Component {
     let classNames = "headerCell";
     if(this.state.wayMatrix){
       if(this.state.wayMatrix[rowIndex.toString()+","+ (columnIndex - 1).toString()] !== undefined){
-        // classNames = cn("oddRow", "cell");
-        style.backgroundColor = "red";
+        style.backgroundColor = RED_COLOR;
+        style.color = "white";
       }
     }
-
     return (
       <div className={classNames} key={key} style={style}>
         {this.state.valueMatrix[rowIndex][columnIndex-1]}
@@ -433,7 +406,8 @@ class AlignSequence extends Component {
         sequence2Array: sequence2Array,
         alignment1: null,
         alignment2: null,
-        valueMatrix: null
+        valueMatrix: null,
+        showMatrixValue: false
       });
     }
   }

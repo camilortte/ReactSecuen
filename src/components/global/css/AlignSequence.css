@@ -63,7 +63,13 @@
     font-weight: bold;
 }
 
+.value-matrix{
+    margin-top: 1em;
+    margin-bottom: 2em;
+}
+
 /* Button container */
 .action-align{
     margin-bottom: 1.5em;
 }
+

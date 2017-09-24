@@ -5,10 +5,6 @@ import logo from './images/logo.svg';
 
 class Header extends Component {
 
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div id="App-Header">
@@ -16,7 +12,7 @@ class Header extends Component {
           <div className="pure-u-24-24 text-container text-center">
             <img src={logo} className="App-logo" alt="logo" />
             <h1>Universidad Distrital</h1>
-            <h3>Bioinformática</h3>
+            <h3>Bioinformática - Alineación de secuencias</h3>
           </div>
         </div>
       </div>
