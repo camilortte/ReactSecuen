@@ -7,6 +7,10 @@ html, body, #root {
   font-family: sans-serif;
 }
 
+.file-text{
+    color: #d06d12;
+}
+
 /* >= 768px */
 @media (max-width: 767px ){
     body{

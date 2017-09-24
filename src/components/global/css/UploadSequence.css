@@ -10,23 +10,24 @@
     color: green;
     border: 1px solid green;
     -webkit-transform: scale(1.1);
+    background-color: #eef5ed;
 }
 
 .drop-zone.drop-zone-active {
-    color: white;
-    background-color: green;
+    /*color: white;*/
+    background-color: #eef5ed;
     -webkit-transform: scale(1.1);
 }
 
 .drop-zone.drop-zone-accept {
-    color: white;
-    background-color: green;
+    /*color: white;*/
+    background-color: #eef5ed;
     -webkit-transform: scale(1.1);
 }
 
 .drop-zone.drop-zone-reject {
-    color: white;
-    background-color: green;
+    /*color: white;*/
+    background-color: #eef5ed;
     -webkit-transform: scale(1.1);
 }
 

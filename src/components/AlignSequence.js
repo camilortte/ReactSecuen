@@ -7,7 +7,7 @@ import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import cn from "classnames";
 
 
-const RED_COLOR = "red";
+const RED_COLOR = "#ff7c03";
 const GREEN_COLOR = "green";
 const TEXT_COLOR_HEACER_CELL = "#fff";
 const BACKGROUND_HEADER_COLOR = "#61dafb";
@@ -128,7 +128,7 @@ class AlignSequence extends Component {
     }
     return(
       <aside className="pure-u-24-24 action-align">
-        <button className={"pure-button pure-button-primary " + btnAlignClass}
+        <button className={"pure-button button-warning " + btnAlignClass}
               onClick={this._onClickAlignSequenceButton}>{btnString}</button>
       </aside>
     );
@@ -144,6 +144,7 @@ class AlignSequence extends Component {
       color = GREEN_COLOR;
     }
     style.backgroundColor = color;
+    style.color = "white";
     style.left = style.left - this.state.rowHeight;
     if(rowIndex === 0){
       return (
@@ -170,7 +171,7 @@ class AlignSequence extends Component {
     } = this.state;
     return(
       <div className="pure-u-24-24">
-        <h2 className="text-center">Resultado alineación</h2>
+        <h2 className="text-center file-text">Resultado alineación</h2>
         <div className={"GridColumn"}>
           <AutoSizer disableHeight>
             {({ width }) =>

@@ -53,7 +53,7 @@ class UploadSequence extends Component {
     if(this.state.accepted.length > 0){
       acceptedFile = (
         <aside>
-          <h4>Archivo "{this.state.accepted[0].name}" ({this.state.accepted[0].size} bytes) cargado.</h4>
+          <h4 className="file-text">Archivo "{this.state.accepted[0].name}" ({this.state.accepted[0].size} bytes) cargado.</h4>
         </aside>
       );
     }
@@ -65,13 +65,13 @@ class UploadSequence extends Component {
             <aside className="pure-g">
               <div className="pure-u-12-24">
                 <div className="sequence-container">
-                  <h4>{this.state.sequence1.description}</h4>
+                  <h4 className="">{this.state.sequence1.description}</h4>
                   <textarea value={this.state.sequence1.payload}/>
                 </div>
               </div>
               <div className="pure-u-12-24">
                 <div className="sequence-container">
-                  <h4>{this.state.sequence2.description}</h4>
+                  <h4 className="">{this.state.sequence2.description}</h4>
                   <textarea value={this.state.sequence2.payload}/>
                 </div>
               </div>

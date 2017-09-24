@@ -23,6 +23,11 @@
   font-size: large;
 }
 
+.button-warning {
+  color:white;
+  background: #ff7c03;
+}
+
 
 
 @keyframes App-logo-spin {
