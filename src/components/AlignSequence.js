@@ -5,21 +5,13 @@ import 'react-virtualized/styles.css'; // only needs to be imported once
 import "./global/css/example.css";
 import scrollbarSize from "dom-helpers/util/scrollbarSize";
 import cn from "classnames";
-const LEFT_COLOR_FROM = hexToRgb("#61dafb");
-const LEFT_COLOR_TO = hexToRgb("#BC3959");
-const TOP_COLOR_FROM = hexToRgb("#000000");
-const TOP_COLOR_TO = hexToRgb("#333333");
 
-function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      }
-    : null;
-}
+
+const LEFT_COLOR_FROM = "#61dafb";
+const LEFT_COLOR_TO = "#BC3959";
+const TOP_COLOR_FROM = "#000000";
+const TOP_COLOR_TO = "#333333";
+
 
 /**
  * Ported from sass implementation in C
@@ -340,7 +332,6 @@ class AlignSequence extends Component {
                           </div>
                           <div
                             style={{
-                              // backgroundColor: `rgb(${middleBackgroundColor.r},${middleBackgroundColor.g},${middleBackgroundColor.b})`,
                               color: "#57c4e1",
                               height,
                               width: width
@@ -376,20 +367,12 @@ class AlignSequence extends Component {
       return;
     }
     let classNames = "headerCell";
-    let way_matrix = this.state.wayMatrix;
-    // console.log(way_matrix);
-    // if(this.state.wayMatrix.length > 0){
-    //   for(let i=0;i<this.state.wayMatrix.length;i++){
-    //     for(let j=0;i<this.state.wayMatrix[0].length;j++) {
-    //       if (this.state.wayMatrix[i][j] === this.state.valueMatrix[rowIndex][columnIndex - 1]) {
-    //         classNames = cn("oddRow", "cell");
-    //         way_matrix.splice(i, 1);
-    //         this.setState({wayMatrix:way_matrix});
-    //         break;
-    //       }
-    //     }
-    //   }
-    // }
+    if(this.state.wayMatrix){
+      if(this.state.wayMatrix[rowIndex.toString()+","+ (columnIndex - 1).toString()] !== undefined){
+        // classNames = cn("oddRow", "cell");
+        style.backgroundColor = "red";
+      }
+    }
 
     return (
       <div className={classNames} key={key} style={style}>
@@ -450,9 +433,7 @@ class AlignSequence extends Component {
         sequence2Array: sequence2Array,
         alignment1: null,
         alignment2: null,
-        valueMatrix: null,
-
-        // loadingAlgorithm: nextProps.loadingAlgorithm
+        valueMatrix: null
       });
     }
   }

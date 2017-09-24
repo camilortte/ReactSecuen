@@ -20,7 +20,7 @@ export default class NeedlemanWunschAlgorithm  {
     this.GAP = GAP;
     this.cost_matrix = cost_matrix;
 
-    this.way_matrix = [];
+    this.way_matrix = {};
 
     // Generate Matrix of sequence1 x sequence2
     this.matrix_value = new Array(this.sequence2.length);
@@ -80,6 +80,7 @@ export default class NeedlemanWunschAlgorithm  {
     let i = this.sequence2.length;
     let j = this.sequence1.length;
 
+    this.way_matrix[(i).toString() + "," + (j).toString()] = [i, j];
     while(i > 0 || j > 0){
       const cost = this.getCost(this.sequence1[j-1], this.sequence2[i-1]);
       if(this.DEBUG){
@@ -104,7 +105,7 @@ export default class NeedlemanWunschAlgorithm  {
         // ((this.DEBUG === true) ? console.log("Select diagonal") : null);
         this.alignment1 = this.sequence1[j-1] + this.alignment1;
         this.alignment2 = this.sequence2[i-1] + this.alignment2;
-        this.way_matrix.push([i-1,j-1]);
+        this.way_matrix[(i-1).toString() + "," + (j-1).toString()] = [i-1, j-1];
         i -= 1;
         j -= 1;
       }
@@ -114,7 +115,7 @@ export default class NeedlemanWunschAlgorithm  {
         // ((this.DEBUG === true) ? console.log("Select left") : null);
         this.alignment2 = "-" + this.alignment2;
         this.alignment1 = this.sequence1[j-1] + this.alignment1;
-        this.way_matrix.push([i,j-1]);
+        this.way_matrix[(i).toString() + "," + (j-1).toString()] = [i, j-1];
         j -= 1;
       }
 
@@ -123,7 +124,7 @@ export default class NeedlemanWunschAlgorithm  {
         // ((this.DEBUG === true) ? console.log("Select right") : null);
         this.alignment2 = this.sequence2[i-1] + this.alignment2;
         this.alignment1 = "-" + this.alignment1;
-        this.way_matrix.push([i-1,j]);
+        this.way_matrix[(i-1).toString() + "," + (j).toString()] = [i-1, j];
         i -= 1;
       }
 
