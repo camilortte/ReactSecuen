@@ -85,11 +85,9 @@ class AlignSequence extends Component {
     if(this.state.alignment1 === null && this.state.alignment2 === null){
       // var self = this;
       this.setState({loadingAlgorithm: true}, () => {
-        console.log(this.state.loadingAlgorithm);
         setTimeout (() => {
           this.align(this.state.sequence1, this.state.sequence2)
         }, 500);
-
       });
     }
   }
