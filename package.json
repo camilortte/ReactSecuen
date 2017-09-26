@@ -6,6 +6,7 @@
     "animate.css": "^3.5.2",
     "dom-helpers": "^3.2.1",
     "mathjs": "^3.16.3",
+    "purecss": "^1.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-dropzone": "^4.1.2",

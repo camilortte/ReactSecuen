@@ -3,7 +3,7 @@ import './global/css/App.css';
 import Header from './global/Header'
 import UploadSequence from './UploadSequence'
 import AlignSequence from './AlignSequence'
-import Footer from "./global/Footer"
+import Footer from "./global/Footer";
 
 class App extends Component {
 
