@@ -1,5 +1,5 @@
 # Summary
-ReactORF calc the ORF of Nucleotide Sequence. This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 For more information see [http://unbackend.pro](http://unbackend.pro) 
 
